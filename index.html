@@ -1,0 +1,1309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Patrick Borges, Systems & Infrastructure Administrator: experience, skills, certifications and homelab.">
+<title>Patrick Borges</title>
+<script>
+/* pick the starting tab from the link before anything paints */
+(function () {
+  var d = document.documentElement, h = (location.hash || '').slice(1);
+  var views = ['overview', 'experience', 'skills', 'homelab'];
+  var emps = ['lansight', 'coke-florida', 'health-choice'];
+  var ws = ['monitoring', 'compliance', 'network', 'dispatch', 'identity'];
+  var view = 'overview', emp = 'lansight', w = 'monitoring';
+  if (views.indexOf(h) > -1) view = h;
+  else if (emps.indexOf(h) > -1) { view = 'experience'; emp = h; }
+  else if (h.indexOf('ws-') === 0 && ws.indexOf(h.slice(3)) > -1) { view = 'experience'; w = h.slice(3); }
+  else if (['cjis', 'lansight-team', 'municipal'].indexOf(h) > -1) view = 'experience';
+  else if (h === 'contact') view = 'experience';
+  d.setAttribute('data-view', view);
+  d.setAttribute('data-emp', emp);
+  d.setAttribute('data-ws', w);
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Overpass+Mono:wght@400;600&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a rack-mounted nameplate opens the site; the top bar switches between four tabs, and each employer is its own faceplate you select. Label-tape yellow is the one accent; cable colors tag skill domains only. */
+:root {
+  --bg: #ECEFF2; --surface: #F8FAFB; --ink: #0B1722; --ink-2: #45586A; --rule: #C3CCD4; --rule-2: #DCE2E7; --link: #0A4FD6;
+  --tape: #FFC21A; --tape-ink: #0B1722;
+  --panel: #0B1824; --p-ink: #F2F6F9; --p-dim: #9EB1C1; --p-rule: #2A4152; --p-node: #112636; --p-rail: #15293A; --p-hole: #040A10;
+  --led-on: #17A558; --led-wait: #E39A00;
+  --c-id: #2563EB; --c-net: #E8590C; --c-sys: #15803D; --c-sec: #D62839; --c-obs: #6D3FE0; --c-tool: #52667A;
+  --d-id: #6EA0FF; --d-net: #FF9248; --d-sec: #FF6B7A; --d-ok: #46D483; --d-obs: #A98BFF; --d-tool: #9FB1C2;
+  --shadow: 0 14px 22px -18px rgba(4, 10, 16, .8);
+  --top-h: 58px;
+  --f-display: 'Big Shoulders Display', 'Arial Narrow', 'Roboto Condensed', Impact, sans-serif;
+  --f-body: 'Public Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --f-mono: 'Overpass Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #07111A; --surface: #0E1C29; --ink: #E7EDF2; --ink-2: #9BAFC0; --rule: #223545; --rule-2: #182836; --link: #7DB2FF;
+    --tape: #FFCB2E;
+    --panel: #0E1D2B; --p-rule: #2D4659; --p-node: #14293A; --p-rail: #172C3E; --p-hole: #050C13;
+    --led-on: #3DDC84; --led-wait: #FFB020;
+    --c-id: #6EA0FF; --c-net: #FF9248; --c-sys: #46D483; --c-sec: #FF6B7A; --c-obs: #A98BFF; --c-tool: #9FB1C2;
+    --shadow: 0 14px 22px -16px rgba(0, 0, 0, .95);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #07111A; --surface: #0E1C29; --ink: #E7EDF2; --ink-2: #9BAFC0; --rule: #223545; --rule-2: #182836; --link: #7DB2FF;
+  --tape: #FFCB2E;
+  --panel: #0E1D2B; --p-rule: #2D4659; --p-node: #14293A; --p-rail: #172C3E; --p-hole: #050C13;
+  --led-on: #3DDC84; --led-wait: #FFB020;
+  --c-id: #6EA0FF; --c-net: #FF9248; --c-sys: #46D483; --c-sec: #FF6B7A; --c-obs: #A98BFF; --c-tool: #9FB1C2;
+  --shadow: 0 14px 22px -16px rgba(0, 0, 0, .95);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box }
+[hidden] { display: none !important }
+html { -webkit-text-size-adjust: 100% }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 1rem/1.6 var(--f-body); -webkit-font-smoothing: antialiased }
+h1, h2, h3, h4, h5, p, ul, ol, dl, dd, figure { margin: 0 }
+ul, ol { padding: 0; list-style: none }
+a { color: var(--link); text-underline-offset: 3px }
+button { font: inherit }
+:focus-visible { outline: 2px solid var(--link); outline-offset: 3px }
+.on-dark :focus-visible, .hero :focus-visible, .cpanel :focus-visible { outline-color: var(--tape) }
+.wrap { width: 100%; max-width: 1180px; margin-inline: auto; padding-inline: clamp(16px, 4vw, 40px) }
+.skip { position: absolute; left: 16px; top: -64px; z-index: 60; padding: 12px 16px; background: var(--tape); color: var(--tape-ink); font: 600 .8125rem/1 var(--f-mono); text-decoration: none }
+.skip:focus { top: 12px }
+main:focus { outline: none }
+
+/* which tab, employer and workstream show; with no script everything shows */
+html[data-view] .view { display: none }
+html[data-view="overview"] #overview, html[data-view="experience"] #experience,
+html[data-view="skills"] #skills, html[data-view="homelab"] #homelab { display: block }
+html[data-view="overview"] #contact { display: none }
+html[data-emp] .emp { display: none }
+html[data-emp="lansight"] #lansight, html[data-emp="coke-florida"] #coke-florida, html[data-emp="health-choice"] #health-choice { display: block }
+html[data-ws] .ws-panel { display: none }
+html[data-ws="monitoring"] #ws-monitoring, html[data-ws="compliance"] #ws-compliance, html[data-ws="network"] #ws-network,
+html[data-ws="dispatch"] #ws-dispatch, html[data-ws="identity"] #ws-identity { display: block }
+
+/* shared pieces */
+.tape { display: inline-block; padding: 5px 11px; background: var(--tape); color: var(--tape-ink); font: 600 .75rem/1.25 var(--f-mono); letter-spacing: .09em; text-transform: uppercase }
+.lbl { color: var(--ink-2); font: 600 .75rem/1.3 var(--f-mono); letter-spacing: .1em; text-transform: uppercase }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 46px; padding: 0 20px; border: 0; border-radius: 2px; background: var(--tape); color: var(--tape-ink); font: 600 .8125rem/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: transform .15s ease, filter .15s ease, background-color .15s ease }
+.btn:hover { filter: brightness(1.06); transform: translateY(-1px) }
+.btn svg { width: 16px; height: 16px; flex: none }
+.btn-line { background: transparent; color: inherit; box-shadow: inset 0 0 0 1px currentColor }
+.btn-line:hover { filter: none; background: color-mix(in srgb, currentColor 10%, transparent) }
+.copy { display: inline-flex; align-items: center; min-height: 32px; padding: 0 10px; border: 1px solid currentColor; border-radius: 2px; background: transparent; color: inherit; font: 600 .6875rem/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; cursor: pointer; opacity: .85 }
+.copy:hover { opacity: 1 }
+.rail { position: absolute; top: 0; bottom: 0; width: 24px; background: var(--p-rail) }
+.rail::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(180deg, var(--p-hole) 0 7px, transparent 7px 22px) center 10px / 8px 100% no-repeat }
+.rail-l { left: 0; border-right: 1px solid var(--p-rule) }
+.rail-r { right: 0; border-left: 1px solid var(--p-rule) }
+.slim .rail { width: 16px }
+.slim .rail::before { background-size: 6px 100%; background-position: center 8px }
+[data-c="id"] { --cab: var(--c-id) } [data-c="net"] { --cab: var(--c-net) } [data-c="sys"] { --cab: var(--c-sys) }
+[data-c="sec"] { --cab: var(--c-sec) } [data-c="obs"] { --cab: var(--c-obs) } [data-c="tool"] { --cab: var(--c-tool) }
+/* inside dark faceplates every component reads its colors from the panel */
+.on-dark { --ink: var(--p-ink); --ink-2: var(--p-dim); --rule: var(--p-rule); --rule-2: var(--p-rule); --surface: var(--p-node); --bg: var(--panel); --c-id: var(--d-id); --c-net: var(--d-net); --c-sec: var(--d-sec); --c-sys: var(--d-ok); --c-obs: var(--d-obs); --c-tool: var(--d-tool); background: var(--panel); color: var(--p-ink) }
+
+/* top bar with the four tabs */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40; background: var(--bg); border-bottom: 1px solid var(--rule) }
+.top .wrap { display: flex; align-items: center; gap: 10px; height: var(--top-h) }
+.brand { display: flex; align-items: center; gap: 10px; flex: none; color: var(--ink); font: 800 1.3rem/1 var(--f-display); letter-spacing: .07em; text-transform: uppercase; text-decoration: none }
+.brand b { padding: 4px 7px 3px; background: var(--tape); color: var(--tape-ink); font-weight: 900 }
+.tabs { display: flex; margin-left: auto; min-width: 0 }
+.tabs a { position: relative; display: inline-flex; align-items: center; height: var(--top-h); padding: 0 12px; color: var(--ink-2); font: 600 .75rem/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; text-decoration: none; white-space: nowrap }
+.tabs a::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: -1px; height: 3px; background: var(--tape); transform: scaleX(0); transform-origin: left; transition: transform .25s ease }
+.tabs a:hover, .tabs a[aria-current="page"] { color: var(--ink) }
+.tabs a[aria-current="page"]::after { transform: scaleX(1) }
+.tabs .short { display: none }
+.top-act { display: flex; align-items: center; gap: 8px; flex: none; margin-left: 6px }
+.top-btn { min-height: 36px; padding: 0 14px; font-size: .75rem }
+.top-li { color: var(--ink) }
+.mode { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--rule); border-radius: 2px; background: transparent; color: var(--ink); cursor: pointer }
+.mode:hover { border-color: var(--ink-2) }
+.mode svg { width: 18px; height: 18px }
+
+/* overview: rack-mounted nameplate */
+.view { padding-block: clamp(26px, 4vw, 44px) clamp(40px, 6vw, 64px) }
+#overview { padding-top: 20px }
+.hero { position: relative; overflow: hidden; border: 1px solid var(--p-rule); border-radius: 4px }
+.hero-in { position: relative; container-type: inline-size; padding: clamp(28px, 5vw, 56px) clamp(44px, 6vw, 84px) }
+.hero h1 { margin: 22px 0 clamp(26px, 4vw, 44px); font: 900 clamp(3.4rem, 9vw, 8rem)/.86 var(--f-display); font-size: min(15.2cqi, 9rem); letter-spacing: .01em; text-transform: uppercase }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); gap: clamp(28px, 5vw, 64px); align-items: start }
+.lede { max-width: 56ch; color: var(--p-dim); font-size: 1.0625rem; line-height: 1.65 }
+.lede strong { color: var(--p-ink); font-weight: 600 }
+.cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 28px }
+.reach { display: grid; gap: 10px; margin-top: 26px; font: 400 .875rem/1.4 var(--f-mono) }
+.reach div { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px }
+.reach .k { min-width: 4.6rem; color: var(--p-dim); font-size: .6875rem; letter-spacing: .1em; text-transform: uppercase }
+.reach .v { color: var(--p-ink); overflow-wrap: anywhere }
+.reach a.v { text-decoration-color: var(--p-dim) }
+.reach .copy { color: var(--p-dim) }
+.ext { font-family: var(--f-mono); text-decoration: none }
+
+/* overview: career path */
+.path { min-width: 0 }
+.path-h { margin-bottom: 8px; color: var(--p-dim); font: 600 .6875rem/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase }
+.hop + .hop { margin-top: 2px }
+.hop a { position: relative; display: grid; grid-template-columns: 24px minmax(0, 1fr); column-gap: 14px; margin-left: -10px; padding: 14px 40px 14px 10px; border-radius: 3px; color: inherit; text-decoration: none; transition: background-color .2s ease }
+.hop a:hover { background: var(--p-node) }
+.hop a::after { content: ""; position: absolute; z-index: 1; left: 21px; top: 26px; bottom: -28px; width: 2px; background: var(--p-rule); transform-origin: top; animation: trace .5s cubic-bezier(.3, .7, .3, 1) both }
+.hop:nth-child(1) a::after { animation-delay: .35s }
+.hop:nth-child(2) a::after { animation-delay: .8s }
+.hop:last-child a::after { display: none }
+.node { position: relative; z-index: 2; grid-row: 1 / span 4; display: grid; place-items: center; width: 24px; height: 24px }
+.node::before { content: ""; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--p-dim); background: var(--panel); animation: boot .45s both }
+.hop:nth-child(2) .node::before { animation-delay: .75s }
+.hop:nth-child(3) .node::before { animation-delay: 1.2s }
+.now .node::before { border-color: var(--led-on); background: var(--led-on); animation: boot .45s .2s both, glow 2.6s 1.6s ease-in-out infinite }
+@keyframes trace { from { transform: scaleY(0) } }
+@keyframes boot { from { border-color: var(--p-rule); transform: scale(.4) } }
+@keyframes glow { 50% { box-shadow: 0 0 0 7px color-mix(in srgb, var(--led-on) 22%, transparent) } }
+.yrs { color: var(--tape); font: 600 .75rem/1.3 var(--f-mono); letter-spacing: .08em; text-transform: uppercase }
+.live { margin-left: 8px; padding: 1px 6px; border: 1px solid var(--led-on); border-radius: 2px; color: var(--d-ok); font-style: normal; font-size: .625rem; letter-spacing: .1em }
+.co { margin-top: 5px; font: 800 1.65rem/1 var(--f-display); letter-spacing: .03em; text-transform: uppercase }
+.role { margin-top: 6px; font-size: .9375rem; line-height: 1.4 }
+.sec { margin-top: 2px; color: var(--p-dim); font-size: .8125rem; line-height: 1.4 }
+.go { position: absolute; right: 14px; top: 14px; color: var(--tape); font: 400 1rem/1 var(--f-mono); opacity: 0; transform: translateX(-4px); transition: opacity .2s ease, transform .2s ease }
+.hop a:hover .go, .hop a:focus-visible .go { opacity: 1; transform: none }
+
+/* overview: certification strip */
+.hero-certs { display: grid; grid-template-columns: max-content minmax(0, 1fr); align-items: center; gap: 12px 20px; margin-top: clamp(30px, 4vw, 46px); padding-top: 22px; border-top: 1px solid var(--p-rule) }
+.hero-certs .k { color: var(--p-dim); font: 600 .6875rem/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase }
+.hero-certs ul { display: flex; flex-wrap: wrap; gap: 8px }
+.hero-certs li { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border: 1px solid var(--p-rule); border-radius: 2px; font: 400 .8125rem/1.2 var(--f-mono) }
+.hero-certs li::before { content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--led-on) }
+.hero-certs .wait li::before { background: var(--led-wait) }
+
+/* overview: one tile per tab */
+.explore { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 16px }
+.explore a { position: relative; display: grid; align-content: start; gap: 6px; padding: 18px 48px 20px 20px; background: var(--surface); border: 1px solid var(--rule); border-radius: 4px; color: var(--ink); text-decoration: none; transition: border-color .2s ease, transform .2s ease }
+.explore a:hover { border-color: var(--ink-2); transform: translateY(-2px) }
+.explore b { font: 800 1.55rem/1.02 var(--f-display); letter-spacing: .02em; text-transform: uppercase }
+.explore .d { color: var(--ink-2); font-size: .875rem; line-height: 1.45 }
+.explore .arr { position: absolute; right: 18px; top: 18px; color: var(--ink-2); font-family: var(--f-mono); transition: transform .2s ease, color .2s ease }
+.explore a:hover .arr { transform: translateX(3px); color: var(--ink) }
+/* tab headings */
+.head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px 24px; margin-bottom: clamp(22px, 3vw, 32px) }
+.head h2 { font: 900 clamp(2.8rem, 6.5vw, 4.6rem)/.88 var(--f-display); letter-spacing: .01em; text-transform: uppercase; text-wrap: balance }
+.head p { color: var(--ink-2); font: 400 .8125rem/1.5 var(--f-mono); letter-spacing: .06em; text-transform: uppercase }
+.head-2 { margin-top: clamp(40px, 5vw, 56px); padding-top: clamp(32px, 4vw, 44px); border-top: 1px solid var(--rule) }
+.view { scroll-margin-top: var(--top-h) }
+#cjis, #ws-monitoring, #ws-compliance, #ws-network, #ws-dispatch, #ws-identity, #contact, .emps { scroll-margin-top: calc(var(--top-h) + 16px) }
+
+/* experience: pick one employer at a time */
+.emps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 14px }
+.emps button { position: relative; display: grid; align-content: start; gap: 4px; padding: 16px 40px 16px 20px; text-align: left; background: var(--surface); color: var(--ink); border: 1px solid var(--rule); border-radius: 4px; cursor: pointer; transition: border-color .2s ease, background-color .2s ease }
+.emps button:hover { border-color: var(--ink-2) }
+.emps .y { color: var(--ink-2); font: 600 .6875rem/1.2 var(--f-mono); letter-spacing: .1em; text-transform: uppercase }
+.emps .c { font: 800 1.5rem/1 var(--f-display); letter-spacing: .03em; text-transform: uppercase }
+.emps .r { color: var(--ink-2); font-size: .875rem; line-height: 1.35 }
+.emps .dot { position: absolute; right: 18px; top: 19px; width: 9px; height: 9px; border-radius: 50%; background: var(--led-on); box-shadow: 0 0 0 3px color-mix(in srgb, var(--led-on) 22%, transparent) }
+.emps button[aria-selected="true"] { background: var(--panel); color: var(--p-ink); border-color: var(--p-rule); box-shadow: inset 0 3px 0 var(--tape) }
+.emps button[aria-selected="true"] .y { color: var(--tape) }
+.emps button[aria-selected="true"] .r { color: var(--p-dim) }
+.emps button[aria-selected="true"]:focus-visible { outline-color: var(--tape) }
+
+/* employer faceplate */
+.plate { position: relative; overflow: hidden; border: 1px solid var(--p-rule); border-radius: 4px }
+.plate-in { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 24px clamp(28px, 4vw, 56px); align-items: start; padding: clamp(22px, 3vw, 30px) clamp(34px, 5vw, 60px) clamp(24px, 3vw, 32px) }
+.facts-dl { display: grid; gap: 14px }
+.facts-dl dt { color: var(--p-dim); font: 600 .6875rem/1.3 var(--f-mono); letter-spacing: .12em; text-transform: uppercase }
+.facts-dl dd { margin-top: 4px; font-size: 1rem; line-height: 1.5 }
+.stats { display: grid; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); border-top: 1px solid var(--p-rule) }
+.stat { min-width: 0; padding: 14px 16px 2px 0 }
+.stat b { display: block; color: var(--tape); font: 800 clamp(2.2rem, 4vw, 3.1rem)/1 var(--f-display); letter-spacing: .02em; font-variant-numeric: tabular-nums }
+.stat span { display: block; margin-top: 6px; color: var(--p-dim); font-size: .8125rem; line-height: 1.45 }
+.emp-body { margin-top: clamp(28px, 4vw, 40px) }
+
+/* engagements and grouped work */
+.duo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px }
+.card { min-width: 0; padding: 22px clamp(18px, 2.4vw, 26px) 24px; background: var(--surface); border: 1px solid var(--rule); border-radius: 4px }
+.eng-k { color: var(--ink-2); font: 600 .6875rem/1.3 var(--f-mono); letter-spacing: .12em; text-transform: uppercase }
+.eng-t { margin: 6px 0 14px; font: 800 clamp(1.45rem, 2.6vw, 1.9rem)/1.02 var(--f-display); letter-spacing: .02em; text-transform: uppercase; text-wrap: balance }
+.pts { min-width: 0; max-width: 74ch }
+.pts li { position: relative; padding-left: 18px; font-size: .96875rem; line-height: 1.62 }
+.pts li + li { margin-top: 10px }
+.pts li::before { content: ""; position: absolute; left: 0; top: .8em; width: 8px; height: 2px; background: var(--ink-2) }
+.pts strong { font-weight: 600 }
+.grp + .grp { margin-top: 30px }
+.grp h4, .ws-panel h4 { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; font: 600 .75rem/1.3 var(--f-mono); letter-spacing: .1em; text-transform: uppercase }
+.grp h4 i, .ws-panel h4 i { flex: none; width: 12px; height: 12px; background: var(--cab) }
+.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, 300px); gap: 28px clamp(28px, 4vw, 56px); align-items: start }
+.side { position: sticky; top: calc(var(--top-h) + 24px); padding: 18px 20px 20px; background: var(--surface); border: 1px solid var(--rule); border-radius: 4px }
+.side .lbl { margin-bottom: 12px }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; min-width: 0 }
+.chips li { display: inline-flex; align-items: center; gap: 8px; max-width: 100%; padding: 6px 10px; border: 1px solid var(--rule); border-radius: 2px; background: var(--surface); font: 400 .8125rem/1.35 var(--f-mono) }
+.chips li::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--cab, var(--ink-2)) }
+.side .chips li { background: var(--bg) }
+
+/* the CJIS program: map and workstreams in one faceplate */
+.cjis-h { margin-top: clamp(40px, 5vw, 56px); margin-bottom: 16px }
+.cjis-h .eng-t { margin-bottom: 0 }
+.cjis { position: relative; overflow: hidden; border: 1px solid var(--p-rule); border-radius: 4px }
+.cjis-in { padding: clamp(24px, 3.6vw, 40px) clamp(34px, 4.6vw, 56px) }
+.cjis-top { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: 20px clamp(28px, 4vw, 48px); align-items: end; padding-bottom: 26px; border-bottom: 1px solid var(--p-rule) }
+.cjis-sum { max-width: 22ch; font: 800 clamp(1.8rem, 3.2vw, 2.5rem)/1.02 var(--f-display); letter-spacing: .02em; text-transform: uppercase; text-wrap: balance }
+.cjis .stats { --n: 4; border-top: 0 }
+.cjis .stat { padding-top: 0 }
+.cjis .stat b { font-size: clamp(2rem, 3.4vw, 2.7rem) }
+.cjis-main { display: grid; grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); gap: clamp(24px, 4vw, 48px); align-items: start; padding-top: 26px }
+.map { min-width: 0 }
+.map svg { display: block; width: 100%; max-width: 100%; height: auto; overflow: visible }
+.map figcaption { margin-top: 14px; color: var(--p-dim); font: 400 .75rem/1.5 var(--f-mono) }
+.key { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 10px; color: var(--p-dim); font: 400 .6875rem/1.2 var(--f-mono); letter-spacing: .04em; text-transform: uppercase }
+.key span { display: inline-flex; align-items: center; gap: 6px }
+.key i { display: inline-block; width: 22px; border-top: 2px solid var(--p-dim) }
+.key .dash { border-top-style: dashed } .key .dot { border-top-style: dotted }
+.key .net { border-top-color: var(--d-net) } .key .id { border-top-color: var(--d-id) } .key .sec { border-top-color: var(--d-sec) }
+.n { fill: var(--p-node); stroke: var(--p-rule); stroke-width: 1; transition: stroke .2s ease, fill .2s ease }
+.n-hub { fill: var(--tape) }
+.map a { cursor: pointer; transition: opacity .25s ease }
+.map a:focus { outline: none }
+.map a:hover .n, .map a:focus-visible .n, .map a.on .n { stroke: var(--tape); stroke-width: 2 }
+.map a:hover .n:not(.n-hub), .map a:focus-visible .n:not(.n-hub) { fill: var(--p-rail) }
+.map.has-focus a:not(.on) { opacity: .42 }
+.t { fill: var(--p-ink); font: 600 13.5px var(--f-body) }
+.s { fill: var(--p-dim); font: 400 11px var(--f-body) }
+.t-hub { fill: var(--tape-ink); font: 700 14px var(--f-body) }
+.s-hub { fill: var(--tape-ink); font: 500 11px var(--f-body) }
+.ln { fill: none; stroke-width: 1.6 }
+.ln-net { stroke: var(--d-net) }
+.ln-vpn { stroke: var(--d-net); stroke-dasharray: 5 5; animation: flow 1.4s linear infinite }
+.ln-ra { stroke: var(--d-net); stroke-dasharray: 1.5 4.5; stroke-linecap: round }
+.ln-id { stroke: var(--d-id) } .ln-sec { stroke: var(--d-sec) }
+.ah-id { fill: var(--d-id) } .ah-sec { fill: var(--d-sec) }
+.pkt-net { fill: var(--d-net) } .pkt-id { fill: var(--d-id) } .pkt-sec { fill: var(--d-sec) }
+@keyframes flow { to { stroke-dashoffset: -10 } }
+.ws-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px }
+.ws-tabs button { display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 10px; background: transparent; color: var(--p-dim); border: 1px solid var(--p-rule); border-radius: 2px; font: 600 .6875rem/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; cursor: pointer; transition: color .2s ease, border-color .2s ease, background-color .2s ease }
+.ws-tabs button i { flex: none; width: 9px; height: 9px; background: var(--cab) }
+.ws-tabs button:hover { color: var(--p-ink); border-color: var(--p-dim) }
+.ws-tabs button[aria-selected="true"] { background: var(--p-ink); color: var(--panel); border-color: var(--p-ink) }
+.ws-panel { min-width: 0; animation: swap .35s ease both }
+@keyframes swap { from { transform: translateY(6px) } }
+.ws-panel .pts li { font-size: .9375rem }
+.fig { margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--rule) }
+.fig-note { margin-top: 10px; color: var(--ink-2); font: 400 .75rem/1.45 var(--f-mono) }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px }
+.tags li { padding: 4px 8px; border: 1px solid var(--rule); border-radius: 2px; color: var(--ink-2); font: 400 .75rem/1.3 var(--f-mono) }
+
+/* chart: log retention on one day axis */
+.ret figcaption { margin-bottom: 12px }
+.ret-row + .ret-row { margin-top: 12px }
+.ret-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 5px 12px; align-items: baseline }
+.ret-k { font-size: .875rem; font-weight: 600 }
+.ret-v { font: 600 .8125rem/1.4 var(--f-mono); font-variant-numeric: tabular-nums }
+.ret-track { grid-column: 1 / -1; position: relative; height: 14px }
+.ret-bar { position: absolute; inset: 0 auto 0 0; width: calc(var(--d) / 365 * 100%); border-radius: 0 3px 3px 0; background: var(--ink); transform-origin: left; transition: transform 1s cubic-bezier(.2, .7, .2, 1) }
+.ret-arch { background: repeating-linear-gradient(135deg, var(--ink) 0 2px, transparent 2px 6px); box-shadow: inset 0 0 0 1px var(--ink) }
+.ret-row + .ret-row .ret-bar { transition-delay: .2s }
+.is-pending .ret-bar { transform: scaleX(0); transition: none }
+.ret-axis { position: relative; height: 22px; margin-top: 10px; border-top: 1px solid var(--rule) }
+.ret-axis span { position: absolute; top: 7px; left: calc(var(--d) / 365 * 100%); transform: translateX(-50%); color: var(--ink-2); font: 400 .6875rem/1 var(--f-mono); white-space: nowrap }
+.ret-axis span::before { content: ""; position: absolute; left: 50%; top: -7px; width: 1px; height: 5px; background: var(--rule) }
+.ret-axis span:first-child { transform: none }
+.ret-axis span:first-child::before { left: 0 }
+.ret-axis span:last-child { transform: translateX(-100%) }
+.ret-axis span:last-child::before { left: auto; right: 0 }
+
+/* figures: platform migration and identity sync */
+.mig-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(40px, .6fr) minmax(0, 1fr); align-items: center; gap: 10px }
+.box { min-width: 0; padding: 12px 14px; border: 1px solid var(--rule); border-radius: 3px; background: var(--bg) }
+.box .k { color: var(--ink-2); font: 600 .6875rem/1.2 var(--f-mono); letter-spacing: .1em; text-transform: uppercase }
+.box b { display: block; margin-top: 5px; font: 800 clamp(1.05rem, 2vw, 1.3rem)/1.05 var(--f-display); letter-spacing: .03em; text-transform: uppercase }
+.box-to { border-color: var(--ink-2); box-shadow: inset 0 -3px 0 var(--tape) }
+.mig-line { position: relative; height: 2px; background: var(--ink-2) }
+.mig-line::after { content: ""; position: absolute; right: -1px; top: -4px; border-left: 8px solid var(--ink-2); border-top: 5px solid transparent; border-bottom: 5px solid transparent }
+.mig-line i { position: absolute; top: -4px; left: calc(100% - 18px); width: 10px; height: 10px; border-radius: 50%; background: var(--tape); box-shadow: 0 0 0 2px var(--surface); transition: left 1.3s cubic-bezier(.45, 0, .2, 1) .25s }
+.is-pending .mig-line i { left: 0; transition: none }
+.sync { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 10px }
+.sync-via { position: relative; min-width: 96px; padding-bottom: 18px; border-bottom: 2px dashed var(--c-id); color: var(--ink-2); font: 600 .6875rem/1 var(--f-mono); letter-spacing: .08em; text-align: center; text-transform: uppercase }
+.sync .box-to { box-shadow: inset 0 -3px 0 var(--c-id) }
+/* skills */
+.comps-wrap { margin-bottom: 32px }
+.comps-wrap .lbl { margin-bottom: 12px }
+.comps { display: flex; flex-wrap: wrap; gap: 8px }
+.comps .tape { max-width: 100% }
+.matrix { border-top: 1px solid var(--rule) }
+.row { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 14px 32px; padding: 20px 0; border-bottom: 1px solid var(--rule) }
+.row h3 { display: flex; align-items: flex-start; gap: 10px; font: 600 .8125rem/1.35 var(--f-mono); letter-spacing: .06em; text-transform: uppercase }
+.row h3 i { flex: none; width: 12px; height: 12px; margin-top: 2px; background: var(--cab) }
+
+/* credentials */
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px }
+.creds-lbl { margin-bottom: 12px }
+.creds-2 { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 12px; margin-top: 32px }
+.creds-2 > div { display: flex; flex-direction: column }
+.creds-2 .tiles { flex: 1; grid-auto-rows: 1fr }
+.creds-2 .tiles.three { grid-template-columns: repeat(3, minmax(0, 1fr)) }
+.creds-2 .tiles.two { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+.tile { min-width: 0; padding: 16px 16px 18px; background: var(--surface); border: 1px solid var(--rule); border-radius: 4px }
+.who { display: flex; align-items: center; gap: 8px; color: var(--ink-2); font: 600 .6875rem/1.25 var(--f-mono); letter-spacing: .1em; text-transform: uppercase }
+.tile b { display: block; margin-top: 10px; font: 800 1.55rem/1.02 var(--f-display); letter-spacing: .02em; text-transform: uppercase; overflow-wrap: anywhere }
+.tiles.two b { font-size: 1.3rem }
+.tile .d { display: block; margin-top: 6px; color: var(--ink-2); font-size: .875rem; line-height: 1.4 }
+.led { flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--led-on); box-shadow: 0 0 0 3px color-mix(in srgb, var(--led-on) 22%, transparent) }
+.wait .led, .led.wait { background: var(--led-wait); box-shadow: 0 0 0 3px color-mix(in srgb, var(--led-wait) 22%, transparent); animation: blink 2.4s ease-in-out infinite }
+.wait .tile { border-style: dashed }
+@keyframes blink { 50% { opacity: .35 } }
+
+/* homelab */
+.lab-note { display: flex; align-items: flex-start; gap: 12px; max-width: 72ch; margin-bottom: 18px; color: var(--ink-2); font-size: .9375rem; line-height: 1.55 }
+.lab-note .tape { flex: none; margin-top: 1px }
+.next { position: relative; overflow: hidden; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px 18px; align-items: start; margin-bottom: 18px; padding: 18px clamp(34px, 4vw, 44px) 20px; border: 1px solid var(--p-rule); border-radius: 4px }
+.next .k { display: flex; align-items: center; gap: 8px; color: var(--tape); font: 600 .75rem/1.3 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap }
+.next ul { display: grid; gap: 8px }
+.next li { font-size: .9375rem; line-height: 1.55 }
+.next li span { color: var(--p-dim) }
+.lab-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px }
+.lab { display: flex; flex-direction: column; min-width: 0; padding: 22px clamp(18px, 2.4vw, 26px) 24px; background: var(--surface); border: 1px solid var(--rule); border-radius: 4px }
+.lab h3 { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; font: 600 .75rem/1.3 var(--f-mono); letter-spacing: .1em; text-transform: uppercase }
+.lab h3 i { flex: none; width: 12px; height: 12px; background: var(--cab) }
+.lab > .pts { margin-bottom: 20px }
+.lab .fig { margin-top: auto }
+.dg { display: block; width: 100%; max-width: 380px; height: auto; margin-inline: auto; overflow: visible }
+.dg-box { fill: var(--bg); stroke: var(--rule); stroke-width: 1 }
+.dg-hot { stroke: var(--c-net); stroke-width: 1.6 }
+.dg-t { fill: var(--ink); font: 700 13px var(--f-body) }
+.dg-s { fill: var(--ink-2); font: 400 10.5px var(--f-mono); letter-spacing: .04em }
+.dg-ln { fill: none; stroke: var(--c-net); stroke-width: 1.6 }
+.dg-ah { fill: var(--c-net) }
+.audit { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 12px }
+.audit ul { display: grid; gap: 6px }
+.audit li { padding: 6px 10px; border: 1px solid var(--rule); border-radius: 2px; background: var(--bg); font: 400 .8125rem/1.3 var(--f-mono) }
+.audit .arrow { color: var(--ink-2); font: 400 1.4rem/1 var(--f-mono) }
+.audit .out { padding: 12px 14px; border: 1px solid var(--ink-2); border-radius: 3px; background: var(--bg); box-shadow: inset 0 -3px 0 var(--c-sec) }
+.audit .out b { display: block; font: 800 2.6rem/1 var(--f-display); font-variant-numeric: tabular-nums }
+.audit .out span { display: block; margin-top: 4px; color: var(--ink-2); font-size: .8125rem; line-height: 1.4 }
+.tree { margin: 0; padding: 12px 14px; overflow-x: auto; border: 1px solid var(--rule); border-radius: 3px; background: var(--bg); font: 400 .8125rem/1.6 var(--f-mono); white-space: pre }
+.tree b { font-weight: 600 }
+.steps { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; counter-reset: s }
+.steps li { position: relative; padding: 10px 8px 10px; border: 1px solid var(--rule); border-radius: 3px; background: var(--bg); font-size: .8125rem; line-height: 1.3 }
+.steps li b { display: block; margin-bottom: 6px; color: var(--c-sys); font: 800 1.35rem/1 var(--f-display) }
+
+/* contact: a closing faceplate on every tab but the overview */
+.cpanel { position: relative; overflow: hidden; margin-bottom: clamp(40px, 6vw, 64px); border: 1px solid var(--p-rule); border-radius: 4px }
+.cpanel-in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px clamp(32px, 5vw, 64px); align-items: center; padding: clamp(28px, 4vw, 44px) clamp(44px, 6vw, 84px) }
+.say { margin-top: 16px; font: 800 clamp(1.7rem, 3.4vw, 2.6rem)/1.02 var(--f-display); letter-spacing: .01em; text-transform: uppercase; text-wrap: balance }
+.cpanel .btn { margin-top: 20px }
+.lines { display: grid }
+.lines div { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 12px 0; border-top: 1px solid var(--p-rule) }
+.lines div:last-child { border-bottom: 1px solid var(--p-rule) }
+.lines .k { min-width: 4.6rem; color: var(--p-dim); font: 600 .6875rem/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase }
+.lines .v { color: var(--p-ink); font: 500 .9375rem/1.3 var(--f-mono); overflow-wrap: anywhere; text-decoration-color: var(--p-dim) }
+.lines .copy { color: var(--p-dim) }
+.foot { padding-block: 28px 40px; border-top: 1px solid var(--rule); color: var(--ink-2); font: 400 .75rem/1.5 var(--f-mono); letter-spacing: .04em; text-transform: uppercase }
+.foot .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px }
+.toast { position: fixed; z-index: 70; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 18px); max-width: min(92vw, 460px); padding: 12px 16px; transform: translateX(-50%); background: var(--panel); color: var(--p-ink); border: 1px solid var(--p-rule); border-radius: 3px; box-shadow: var(--shadow); font: 400 .8125rem/1.45 var(--f-mono) }
+
+/* responsive */
+@media (max-width: 1040px) {
+  .top-li { display: none }
+}
+@media (max-width: 960px) {
+  .brand span { display: none }
+}
+@media (max-width: 860px) {
+  .tabs .full { display: none }
+  .tabs .short { display: inline }
+}
+@media (max-width: 980px) {
+  .hero-grid, .plate-in, .cjis-top, .cjis-main, .split, .cpanel-in { grid-template-columns: minmax(0, 1fr) }
+  .side { position: static }
+  .map { max-width: 520px }
+  .cjis-sum { max-width: none }
+}
+@media (max-width: 860px) {
+  .explore, .duo, .lab-grid { grid-template-columns: minmax(0, 1fr) }
+  .emps { grid-template-columns: minmax(0, 1fr); gap: 6px }
+  .emps button { grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 2px 12px; padding: 12px 36px 12px 16px }
+  .emps .y { grid-column: 2; grid-row: 1 }
+  .emps .c { grid-column: 1; grid-row: 1; font-size: 1.3rem }
+  .emps .r { display: none }
+  .emps .dot { top: 50%; right: 14px; margin-top: -4px }
+}
+@media (max-width: 760px) {
+  .top-btn { display: none }
+  .creds-2, .row { grid-template-columns: minmax(0, 1fr) }
+  .creds-2 { gap: 32px }
+  .steps { grid-template-columns: minmax(0, 1fr) }
+  .steps li { display: flex; align-items: baseline; gap: 12px; padding: 8px 12px }
+  .steps li b { margin: 0; font-size: 1.1rem }
+}
+@media (max-width: 600px) {
+  .rail { width: 14px }
+  .rail::before { background-size: 6px 100%; background-position: center 8px }
+  .slim .rail { width: 10px }
+  .slim .rail::before { background-size: 4px 100% }
+  .hero-in, .cpanel-in { padding-inline: 28px }
+  .plate-in, .cjis-in { padding-inline: 24px }
+  .next { padding-inline: 24px; grid-template-columns: minmax(0, 1fr) }
+  .cta .btn { flex: 1 1 auto }
+  .reach { font-size: .8125rem }
+  .reach .k { flex-basis: 100% }
+  .hero-certs { grid-template-columns: minmax(0, 1fr); gap: 10px }
+  .hero-certs .k + ul + .k { margin-top: 8px }
+  .stats, .cjis .stats { grid-template-columns: max-content minmax(0, 1fr); column-gap: 18px }
+  .stat { display: contents }
+  .stat b, .stat span { padding: 12px 0; border-bottom: 1px solid var(--p-rule) }
+  .stat b, .cjis .stat b { font-size: 2.2rem }
+  .stat span { display: flex; align-items: center; margin-top: 0 }
+  .stat:last-child b, .stat:last-child span { border-bottom: 0 }
+  .t { font-size: 15px } .s { font-size: 12.5px } .t-hub { font-size: 15.5px } .s-hub { font-size: 12px }
+  .tiles, .creds-2 .tiles.three { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  .tiles > :last-child:nth-child(odd) { grid-column: 1 / -1 }
+  .mig-row { grid-template-columns: minmax(0, 1fr) 30px minmax(0, 1fr) }
+  .sync { grid-template-columns: minmax(0, 1fr) }
+  .sync-via { min-width: 0; padding: 8px 0 8px 14px; border-bottom: 0; border-left: 2px dashed var(--c-id); text-align: left; margin-left: 20px }
+  .audit { grid-template-columns: minmax(0, 1fr) }
+  .audit .arrow { transform: rotate(90deg); justify-self: start; margin-left: 12px }
+}
+@media (max-width: 560px) {
+  .tabs a { padding-inline: 9px }
+  .tabs a::after { left: 9px; right: 9px }
+  .dg-t { font-size: 15px }
+  .dg-s { font-size: 12.5px }
+  .hero h1 span { display: block }
+  .hero h1 { font-size: clamp(3.4rem, 22vw, 7rem); font-size: min(29cqi, 7rem) }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; transition-delay: 0s !important }
+  .pkts { display: none }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#overview" aria-label="Patrick Borges, overview"><b>PB</b><span>Patrick Borges</span></a>
+    <nav class="tabs" aria-label="Site">
+      <a href="#overview" data-view="overview"><span class="full">Overview</span><span class="short">Home</span></a>
+      <a href="#experience" data-view="experience"><span class="full">Experience</span><span class="short">Work</span></a>
+      <a href="#skills" data-view="skills"><span class="full">Skills &amp; certs</span><span class="short">Skills</span></a>
+      <a href="#homelab" data-view="homelab"><span class="full">Homelab</span><span class="short">Lab</span></a>
+    </nav>
+    <div class="top-act">
+      <a class="btn btn-line top-btn top-li" href="https://www.linkedin.com/in/patrick-borges-it-specialist" target="_blank" rel="noopener">LinkedIn <span class="ext" aria-hidden="true">↗</span></a>
+      <a class="btn top-btn" href="Patrick_Borges_Resume.pdf" download data-resume>Résumé</a>
+      <button class="mode" id="mode" type="button" aria-label="Switch between light and dark theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+<div class="wrap">
+
+<section class="view" id="overview" aria-labelledby="name">
+  <div class="hero on-dark">
+    <span class="rail rail-l" aria-hidden="true"></span><span class="rail rail-r" aria-hidden="true"></span>
+    <div class="hero-in">
+      <p class="tape">Systems &amp; Infrastructure Administrator</p>
+      <h1 id="name"><span>Patrick</span> <span>Borges</span></h1>
+      <div class="hero-grid">
+        <div>
+          <p class="lede">Systems and infrastructure administrator in managed services, currently supporting a municipal government and two police departments while managing and training junior technicians. <strong>Built a police department's CJIS security and compliance program across three sites.</strong> Strong in Active Directory and hybrid identity, Windows Server, Linux, network and firewall engineering, and infrastructure automation, with prior manufacturing and healthcare IT experience.</p>
+          <div class="cta">
+            <a class="btn" href="Patrick_Borges_Resume.pdf" download data-resume><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></svg>Download résumé</a>
+            <a class="btn btn-line" href="#experience">See experience</a>
+          </div>
+          <div class="reach">
+            <div><span class="k">Email</span><span class="v" id="em1">patrick.borges0514@gmail.com</span><button class="copy" type="button" data-copy="patrick.borges0514@gmail.com" data-target="em1">Copy</button></div>
+            <div><span class="k">Phone</span><span class="v" id="ph1">786-897-1651</span><button class="copy" type="button" data-copy="786-897-1651" data-target="ph1">Copy</button></div>
+            <div><span class="k">LinkedIn</span><a class="v" href="https://www.linkedin.com/in/patrick-borges-it-specialist" target="_blank" rel="noopener">linkedin.com/in/patrick-borges-it-specialist</a></div>
+          </div>
+        </div>
+
+        <nav class="path" aria-label="Career path">
+          <p class="path-h">Career path</p>
+          <ol>
+            <li class="hop now"><a href="#lansight"><span class="node" aria-hidden="true"></span><span class="yrs">2025 – Present<em class="live">Current</em></span><span class="co">Lansight Technology</span><span class="role">Systems &amp; Infrastructure Administrator</span><span class="sec">Managed services · public-sector clients</span><span class="go" aria-hidden="true">→</span></a></li>
+            <li class="hop"><a href="#coke-florida"><span class="node" aria-hidden="true"></span><span class="yrs">2024 – 2025</span><span class="co">Coke Florida</span><span class="role">IT Analyst</span><span class="sec">Manufacturing &amp; distribution</span><span class="go" aria-hidden="true">→</span></a></li>
+            <li class="hop"><a href="#health-choice"><span class="node" aria-hidden="true"></span><span class="yrs">2022 – 2024</span><span class="co">Health Choice Network</span><span class="role">IT Field Help Desk</span><span class="sec">Healthcare</span><span class="go" aria-hidden="true">→</span></a></li>
+          </ol>
+        </nav>
+      </div>
+
+      <div class="hero-certs">
+        <p class="k">Certified</p>
+        <ul><li>Microsoft SC-300</li><li>CompTIA A+</li><li>CompTIA Tech+</li><li>ITIL 4 Foundation</li><li>CJIS Security Awareness, Level 4</li></ul>
+        <p class="k">In progress</p>
+        <ul class="wait"><li>CompTIA Network+</li><li>LPI Linux Essentials</li><li>Azure Fundamentals (AZ-900)</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <nav class="explore" aria-label="More about Patrick">
+    <a href="#experience"><span class="lbl">Experience</span><b>3 employers, 2022 to present</b><span class="d">Managed services, manufacturing and healthcare.</span><span class="arr" aria-hidden="true">→</span></a>
+    <a href="#skills"><span class="lbl">Skills &amp; certifications</span><b>6 technical domains</b><span class="d">5 certifications earned and 3 in progress.</span><span class="arr" aria-hidden="true">→</span></a>
+    <a href="#homelab"><span class="lbl">Homelab</span><b>4 personal lab builds</b><span class="d">Redundant DNS, a network audit, an Active Directory lab and Linux.</span><span class="arr" aria-hidden="true">→</span></a>
+  </nav>
+</section>
+<section class="view" id="experience" aria-labelledby="h-exp">
+  <div class="head"><h2 id="h-exp">Experience</h2><p>3 employers · 2022 to present</p></div>
+
+  <div class="emps" role="tablist" aria-label="Employers">
+    <button type="button" role="tab" id="et-lansight" aria-controls="lansight" aria-selected="true" data-emp="lansight"><span class="y">2025 – Present</span><span class="c">Lansight Technology</span><span class="r">Systems &amp; Infrastructure Administrator</span><span class="dot" aria-hidden="true"></span></button>
+    <button type="button" role="tab" id="et-coke" aria-controls="coke-florida" aria-selected="false" data-emp="coke-florida"><span class="y">2024 – 2025</span><span class="c">Coke Florida</span><span class="r">IT Analyst</span></button>
+    <button type="button" role="tab" id="et-hcn" aria-controls="health-choice" aria-selected="false" data-emp="health-choice"><span class="y">2022 – 2024</span><span class="c">Health Choice Network</span><span class="r">IT Field Help Desk</span></button>
+  </div>
+
+  <article class="emp" id="lansight" role="tabpanel" aria-labelledby="et-lansight">
+    <div class="plate on-dark slim">
+      <span class="rail rail-l" aria-hidden="true"></span><span class="rail rail-r" aria-hidden="true"></span>
+      <div class="plate-in">
+        <dl class="facts-dl"><div><dt>Setting</dt><dd>Managed services, with public-sector clients</dd></div></dl>
+        <dl class="facts-dl"><div><dt>Clients</dt><dd>A municipal government and two police departments, plus escalations from the firm's other clients</dd></div></dl>
+      </div>
+    </div>
+
+    <div class="emp-body">
+      <div class="duo">
+        <section class="card" id="lansight-team" aria-labelledby="e1">
+          <p class="eng-k">Across Lansight</p>
+          <h3 class="eng-t" id="e1">Team lead and escalation</h3>
+          <ul class="pts">
+            <li>Manage and train junior technicians, setting daily priorities, reviewing completed work, and developing their skills across Active Directory, endpoint management, and networking.</li>
+            <li>Serve as escalation point for complex infrastructure and security issues across the firm's other managed-services clients.</li>
+          </ul>
+        </section>
+        <section class="card" id="municipal" aria-labelledby="e2">
+          <p class="eng-k">Client</p>
+          <h3 class="eng-t" id="e2">Municipal government &amp; police department</h3>
+          <ul class="pts">
+            <li>Administer Active Directory and hybrid identity, network and firewall infrastructure, endpoint management, and public-safety systems for a municipal government and its police department.</li>
+          </ul>
+        </section>
+      </div>
+
+      <section id="cjis" aria-labelledby="e3">
+        <div class="cjis-h"><p class="eng-k">Client · CJIS-regulated · 3 sites</p><h3 class="eng-t" id="e3">Municipal police department</h3></div>
+        <div class="cjis on-dark slim">
+          <span class="rail rail-l" aria-hidden="true"></span><span class="rail rail-r" aria-hidden="true"></span>
+          <div class="cjis-in">
+            <div class="cjis-top">
+              <p class="cjis-sum">Built the department's CJIS security and compliance program across three sites</p>
+              <ul class="stats">
+                <li class="stat"><b>3</b><span>sites in one CJIS-regulated agency</span></li>
+                <li class="stat"><b>3</b><span>audit control gaps closed by the new SIEM</span></li>
+                <li class="stat"><b>2</b><span>site-to-site tunnels, one new and one restored</span></li>
+                <li class="stat"><b>4</b><span>VLANs across the firewall fleet</span></li>
+              </ul>
+            </div>
+
+            <div class="cjis-main">
+              <figure class="map" id="cjis-map">
+                <svg viewBox="-1 -1 402 470" role="group" aria-labelledby="mt">
+                  <title id="mt">Service map of the police department's environment. Each component opens the related workstream.</title>
+                  <defs>
+                    <marker id="a-id" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path class="ah-id" d="M0 0L8 4L0 8z"/></marker>
+                    <marker id="a-sec" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path class="ah-sec" d="M0 0L8 4L0 8z"/></marker>
+                  </defs>
+                  <path class="ln ln-ra" d="M58 46V98"/>
+                  <path class="ln ln-net" d="M200 46V98"/>
+                  <path class="ln ln-vpn" d="M342 46V98"/>
+                  <path class="ln ln-id" d="M200 152V206" marker-end="url(#a-id)"/>
+                  <path class="ln ln-id" d="M130 260V287H88V314" marker-end="url(#a-id)"/>
+                  <path class="ln ln-id" d="M270 260V287H312V314" marker-end="url(#a-id)"/>
+                  <path class="ln ln-sec" d="M312 368V420" marker-end="url(#a-sec)"/>
+                  <path class="ln ln-sec" d="M176 444H224" marker-end="url(#a-sec)"/>
+                  <g class="pkts" aria-hidden="true">
+                    <circle class="pkt-net" r="3"><animateMotion dur="2.3s" repeatCount="indefinite" path="M58 46V98"/></circle>
+                    <circle class="pkt-net" r="3"><animateMotion dur="2.7s" repeatCount="indefinite" path="M342 46V98"/></circle>
+                    <circle class="pkt-id" r="3"><animateMotion dur="3.1s" repeatCount="indefinite" path="M130 260V287H88V312"/></circle>
+                    <circle class="pkt-id" r="3"><animateMotion dur="2.9s" repeatCount="indefinite" path="M270 260V287H312V312"/></circle>
+                    <circle class="pkt-sec" r="3"><animateMotion dur="1.7s" repeatCount="indefinite" path="M312 368V418"/></circle>
+                    <circle class="pkt-sec" r="3"><animateMotion dur="2.1s" repeatCount="indefinite" path="M176 444H222"/></circle>
+                  </g>
+                  <a href="#ws-network" data-node="patrol" aria-label="Patrol units on AnyConnect VPN: open network and remote access">
+                    <rect class="n" x="0" y="0" width="116" height="46" rx="4"/>
+                    <text class="t" x="58" y="20" text-anchor="middle">Patrol units</text><text class="s" x="58" y="36" text-anchor="middle">AnyConnect VPN</text>
+                  </a>
+                  <a href="#ws-network" data-node="carriers" aria-label="Two carriers with dual-WAN failover: open network and remote access">
+                    <rect class="n" x="142" y="0" width="116" height="46" rx="4"/>
+                    <text class="t" x="200" y="20" text-anchor="middle">Carrier A + B</text><text class="s" x="200" y="36" text-anchor="middle">dual-WAN failover</text>
+                  </a>
+                  <a href="#ws-network" data-node="remote" aria-label="Remote sites on site-to-site VPN: open network and remote access">
+                    <rect class="n" x="284" y="0" width="116" height="46" rx="4"/>
+                    <text class="t" x="342" y="20" text-anchor="middle">Remote sites</text><text class="s" x="342" y="36" text-anchor="middle">site-to-site VPN</text>
+                  </a>
+                  <a href="#ws-network" data-node="edge" aria-label="Edge firewalls: open network and remote access">
+                    <rect class="n" x="20" y="98" width="360" height="54" rx="4"/>
+                    <text class="t" x="200" y="121" text-anchor="middle">Edge firewalls</text><text class="s" x="200" y="139" text-anchor="middle">Cisco ASA / Firepower · pfSense · 4 VLANs</text>
+                  </a>
+                  <a href="#ws-identity" data-node="ad" aria-label="Active Directory: open identity and systems">
+                    <rect class="n n-hub" x="100" y="206" width="200" height="54" rx="4"/>
+                    <text class="t-hub" x="200" y="229" text-anchor="middle">Active Directory</text><text class="s-hub" x="200" y="246" text-anchor="middle">AD DS · Group Policy · LDAPS</text>
+                  </a>
+                  <a href="#ws-identity" data-node="entra" aria-label="Entra ID and Microsoft 365 GCC: open identity and systems">
+                    <rect class="n" x="0" y="314" width="176" height="54" rx="4"/>
+                    <text class="t" x="88" y="337" text-anchor="middle">Entra ID · M365 GCC</text><text class="s" x="88" y="354" text-anchor="middle">synced via Entra Connect</text>
+                  </a>
+                  <a href="#ws-monitoring" data-node="endpoints" aria-label="Endpoints with Wazuh agents deployed by Group Policy: open security monitoring">
+                    <rect class="n" x="224" y="314" width="176" height="54" rx="4"/>
+                    <text class="t" x="312" y="337" text-anchor="middle">Endpoints</text><text class="s" x="312" y="354" text-anchor="middle">Wazuh agents via GPO</text>
+                  </a>
+                  <a href="#ws-monitoring" data-node="defender" aria-label="Microsoft Defender telemetry: open security monitoring">
+                    <rect class="n" x="0" y="420" width="176" height="48" rx="4"/>
+                    <text class="t" x="88" y="441" text-anchor="middle">Microsoft Defender</text><text class="s" x="88" y="457" text-anchor="middle">telemetry into the SIEM</text>
+                  </a>
+                  <a href="#ws-monitoring" data-node="siem" aria-label="Wazuh SIEM: open security monitoring">
+                    <rect class="n" x="224" y="420" width="176" height="48" rx="4"/>
+                    <text class="t" x="312" y="441" text-anchor="middle">Wazuh SIEM</text><text class="s" x="312" y="457" text-anchor="middle">90d indexed · 365d archive</text>
+                  </a>
+                </svg>
+                <figcaption>How the program's systems connect, simplified, with no names, addresses or hostnames. Select a component to open the work behind it.</figcaption>
+                <div class="key" aria-hidden="true">
+                  <span><i class="net"></i>Network</span><span><i class="id"></i>Directory</span><span><i class="sec"></i>Telemetry</span>
+                  <span><i class="net dash"></i>Tunnel</span><span><i class="net dot"></i>Remote access</span>
+                </div>
+              </figure>
+
+              <div class="wsx">
+                <div class="ws-tabs" role="tablist" aria-label="Workstreams">
+                  <button type="button" role="tab" id="wst-monitoring" aria-controls="ws-monitoring" aria-selected="true" data-ws="monitoring" data-c="sec"><i aria-hidden="true"></i>SIEM</button>
+                  <button type="button" role="tab" id="wst-compliance" aria-controls="ws-compliance" aria-selected="false" data-ws="compliance" data-c="sec"><i aria-hidden="true"></i>Compliance</button>
+                  <button type="button" role="tab" id="wst-network" aria-controls="ws-network" aria-selected="false" data-ws="network" data-c="net"><i aria-hidden="true"></i>Network</button>
+                  <button type="button" role="tab" id="wst-identity" aria-controls="ws-identity" aria-selected="false" data-ws="identity" data-c="id"><i aria-hidden="true"></i>Identity</button>
+                  <button type="button" role="tab" id="wst-dispatch" aria-controls="ws-dispatch" aria-selected="false" data-ws="dispatch" data-c="sys"><i aria-hidden="true"></i>Dispatch</button>
+                </div>
+                <section class="ws-panel" id="ws-monitoring" role="tabpanel" aria-labelledby="wst-monitoring" data-c="sec">
+                  <h4><i aria-hidden="true"></i>Security monitoring</h4>
+                  <ul class="pts">
+                    <li>Deployed the agency's first centralized SIEM and log-aggregation platform (Wazuh on Ubuntu Server), <strong>closing three documented audit control gaps</strong> and configuring CJIS-compliant retention (90-day indexed, 365-day archive) via automated index lifecycle policy and scheduled pruning; built and signed off the agency's first formal recurring audit-log review.</li>
+                    <li>Automated fleet-wide agent deployment through Group Policy using idempotent PowerShell staged in SYSVOL for <strong>zero-touch enrollment</strong>; integrated Microsoft Defender telemetry into the SIEM, validated the detection path end to end with controlled testing, and authored custom detection rules for alert tuning and false-positive suppression.</li>
+                  </ul>
+                  <figure class="fig ret" data-reveal>
+                    <figcaption class="lbl">Log retention on the SIEM, in days</figcaption>
+                    <div class="ret-row"><span class="ret-k">Indexed and searchable</span><span class="ret-v">90 days</span><div class="ret-track"><i class="ret-bar" style="--d:90" title="Indexed and searchable: 90 days"></i></div></div>
+                    <div class="ret-row"><span class="ret-k">Archive</span><span class="ret-v">365 days</span><div class="ret-track"><i class="ret-bar ret-arch" style="--d:365" title="Archive: 365 days"></i></div></div>
+                    <div class="ret-axis" aria-hidden="true"><span style="--d:0">0</span><span style="--d:90">90</span><span style="--d:180">180</span><span style="--d:270">270</span><span style="--d:365">365</span></div>
+                  </figure>
+                </section>
+
+                <section class="ws-panel" id="ws-compliance" role="tabpanel" aria-labelledby="wst-compliance" data-c="sec">
+                  <h4><i aria-hidden="true"></i>Compliance and audit</h4>
+                  <ul class="pts">
+                    <li>Assessed a three-site, CJIS-regulated municipal police department against the <strong>FBI CJIS Security Policy and NIST 800-53 Moderate baseline</strong> for an FDLE audit, documenting control gaps with remediation roadmaps.</li>
+                    <li>Authored the agency's change-controlled <strong>CM-2 Baseline Configuration</strong> (network topology, asset inventory, control implementation record) and its <strong>Cybersecurity Incident Response Plan (CIRP)</strong>.</li>
+                    <li>Performed FIPS 140-2/140-3 CMVP validation research across firewall, MFA, and mobile cryptographic modules, identifying firmware-to-certificate version mismatches that invalidated assumed compliance before audit submission.</li>
+                  </ul>
+                  <div class="fig">
+                    <p class="lbl">Frameworks and deliverables</p>
+                    <ul class="tags"><li>FBI CJIS Security Policy</li><li>NIST 800-53 Moderate</li><li>FDLE audit</li><li>FIPS 140-2 / 140-3 (CMVP)</li><li>CM-2 Baseline Configuration</li><li>CIRP</li></ul>
+                  </div>
+                </section>
+
+                <section class="ws-panel" id="ws-network" role="tabpanel" aria-labelledby="wst-network" data-c="net">
+                  <h4><i aria-hidden="true"></i>Network and remote access</h4>
+                  <ul class="pts">
+                    <li>Built the department's <strong>remote-access VPN from scratch on Cisco Firepower</strong>, authenticating against Active Directory over LDAPS via a dedicated unprivileged service account, and deployed AnyConnect to give patrol officers secure field access.</li>
+                    <li>Engineered site-to-site VPNs linking remote sites to the main station (one new tunnel, one restored) and designed <strong>dual-WAN failover</strong> with a secondary carrier and segmented egress across a Cisco ASA/Firepower and pfSense fleet covering four VLANs.</li>
+                    <li>Replaced three failing access switches and a legacy hub in the main network closet with managed Ubiquiti UniFi PoE switches, modernizing the access layer and consolidating powered devices.</li>
+                  </ul>
+                </section>
+
+                <section class="ws-panel" id="ws-identity" role="tabpanel" aria-labelledby="wst-identity" data-c="id">
+                  <h4><i aria-hidden="true"></i>Identity and systems</h4>
+                  <ul class="pts">
+                    <li>Resolved UPN suffix rewriting and alternate-login-ID authentication failures in the agency's hybrid identity (on-premises Active Directory synced to Entra ID and Microsoft 365 GCC via Entra Connect) and made <strong>OU placement an enforceable policy control</strong>.</li>
+                    <li>Deployed a new Dell server, rolled out <strong>agency-wide MFA</strong>, configured patrol-unit GPS tracking, and owned user provisioning.</li>
+                  </ul>
+                  <figure class="fig">
+                    <div class="sync">
+                      <div class="box"><span class="k">On-premises</span><b>Active Directory</b></div>
+                      <div class="sync-via">Entra Connect</div>
+                      <div class="box box-to"><span class="k">Cloud</span><b>Entra ID · M365 GCC</b></div>
+                    </div>
+                    <figcaption class="fig-note">Hybrid identity: the directory the UPN fixes applied to</figcaption>
+                  </figure>
+                </section>
+
+                <section class="ws-panel" id="ws-dispatch" role="tabpanel" aria-labelledby="wst-dispatch" data-c="sys">
+                  <h4><i aria-hidden="true"></i>Public-safety systems</h4>
+                  <ul class="pts">
+                    <li>Led the migration of the department's Computer-Aided Dispatch (CAD) system from <strong>CentralSquare to Mark43</strong>, coordinating vendors and stakeholders to maintain continuity of mission-critical public-safety operations.</li>
+                  </ul>
+                  <figure class="fig mig" data-reveal>
+                    <div class="mig-row">
+                      <div class="box"><span class="k">From</span><b>CentralSquare</b></div>
+                      <div class="mig-line" aria-hidden="true"><i></i></div>
+                      <div class="box box-to"><span class="k">To</span><b>Mark43</b></div>
+                    </div>
+                    <figcaption class="fig-note">Computer-Aided Dispatch (CAD) platform migration</figcaption>
+                  </figure>
+                </section>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </article>
+  <article class="emp" id="coke-florida" role="tabpanel" aria-labelledby="et-coke">
+    <div class="plate on-dark slim">
+      <span class="rail rail-l" aria-hidden="true"></span><span class="rail rail-r" aria-hidden="true"></span>
+      <div class="plate-in">
+        <dl class="facts-dl"><div><dt>Setting</dt><dd>Manufacturing and distribution, across offices and warehouses</dd></div></dl>
+        <ul class="stats" style="--n:3">
+          <li class="stat"><b>4</b><span>distribution centers</span></li>
+          <li class="stat"><b data-count="600" data-suffix="+">600+</b><span>employees supported</span></li>
+          <li class="stat"><b data-count="2000" data-suffix="+">2,000+</b><span>devices supported</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="emp-body split">
+      <div>
+        <div class="grp" data-c="tool">
+          <h4><i aria-hidden="true"></i>Operations and endpoints</h4>
+          <ul class="pts">
+            <li>Managed IT operations across 4 distribution centers supporting over 600 employees and 2,000+ devices.</li>
+            <li>Administered Microsoft Intune and Active Directory, <strong>standardizing device compliance policy</strong> and streamlining onboarding.</li>
+            <li>Supported enterprise A/V systems and Microsoft Teams meetings for executive operations.</li>
+            <li>Reviewed change requests at the Change Advisory Board (CAB) for implementation risk and rollback readiness.</li>
+          </ul>
+        </div>
+        <div class="grp" data-c="net">
+          <h4><i aria-hidden="true"></i>Network</h4>
+          <ul class="pts">
+            <li>Deployed Meraki switches and wireless access points, strengthening network reliability across offices and warehouses.</li>
+            <li>Implemented cabling and network-documentation SOPs, <strong>reducing repeat cabling faults</strong> and shortening fault isolation time.</li>
+          </ul>
+        </div>
+      </div>
+      <aside class="side" aria-label="Tools and practices at Coke Florida">
+        <p class="lbl">In this role</p>
+        <ul class="chips">
+          <li data-c="id">Microsoft Intune</li><li data-c="id">Active Directory</li><li data-c="net">Cisco Meraki switches &amp; APs</li><li data-c="net">Cabling &amp; network SOPs</li><li data-c="tool">Microsoft Teams</li><li data-c="tool">Enterprise A/V</li><li data-c="tool">Change Advisory Board</li>
+        </ul>
+      </aside>
+    </div>
+  </article>
+
+  <article class="emp" id="health-choice" role="tabpanel" aria-labelledby="et-hcn">
+    <div class="plate on-dark slim">
+      <span class="rail rail-l" aria-hidden="true"></span><span class="rail rail-r" aria-hidden="true"></span>
+      <div class="plate-in">
+        <dl class="facts-dl"><div><dt>Setting</dt><dd>Healthcare, across multiple health centers</dd></div></dl>
+        <ul class="stats" style="--n:3">
+          <li class="stat"><b data-count="500" data-suffix="+">500+</b><span>endpoints supported</span></li>
+          <li class="stat"><b data-count="300">300</b><span>staff members supported</span></li>
+          <li class="stat"><b>0</b><span>access-related incidents</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="emp-body split">
+      <div>
+        <div class="grp" data-c="id">
+          <h4><i aria-hidden="true"></i>Endpoints and identity</h4>
+          <ul class="pts">
+            <li>Supported over 500 endpoints and 300 staff members across multiple health centers.</li>
+            <li>Optimized Microsoft Intune deployment workflows, <strong>tightening update compliance</strong> across the managed endpoint fleet.</li>
+            <li>Administered on-premises Active Directory and Azure AD (now Entra ID), managing user accounts, groups, GPOs, and security permissions with <strong>zero access-related incidents</strong>.</li>
+          </ul>
+        </div>
+        <div class="grp" data-c="sys">
+          <h4><i aria-hidden="true"></i>Infrastructure and vendors</h4>
+          <ul class="pts">
+            <li>Installed and configured servers and networking equipment to improve clinic performance and reduce recurring ticket volume.</li>
+            <li>Coordinated with vendors on infrastructure upgrades, improving uptime across clinic sites.</li>
+          </ul>
+        </div>
+      </div>
+      <aside class="side" aria-label="Tools and practices at Health Choice Network">
+        <p class="lbl">In this role</p>
+        <ul class="chips">
+          <li data-c="id">Microsoft Intune</li><li data-c="id">Active Directory</li><li data-c="id">Azure AD (now Entra ID)</li><li data-c="id">Group Policy</li><li data-c="sys">Servers</li><li data-c="net">Networking equipment</li><li data-c="tool">Vendor coordination</li>
+        </ul>
+      </aside>
+    </div>
+  </article>
+</section>
+<section class="view" id="skills" aria-labelledby="h-skills">
+  <div class="head"><h2 id="h-skills">Skills</h2><p>6 technical domains · 8 core competencies</p></div>
+  <div class="comps-wrap">
+    <p class="lbl">Core competencies</p>
+    <ul class="comps">
+      <li class="tape">Systems &amp; Infrastructure Administration</li>
+      <li class="tape">Deployment &amp; Lifecycle Management</li>
+      <li class="tape">Vendor Coordination</li>
+      <li class="tape">Root Cause Analysis</li>
+      <li class="tape">IT Operations Management</li>
+      <li class="tape">Process Optimization</li>
+      <li class="tape">End-User Support Excellence</li>
+      <li class="tape">Incident, Problem &amp; Change Management</li>
+    </ul>
+  </div>
+  <div class="matrix">
+    <div class="row" data-c="id">
+      <h3><i aria-hidden="true"></i>Directory, Identity &amp; Endpoint</h3>
+      <ul class="chips">
+        <li>Active Directory Domain Services</li><li>domain controller deployment</li><li>OU design</li><li>Entra ID</li><li>Entra Connect</li><li>Microsoft 365 GCC</li><li>Microsoft Intune</li><li>Group Policy</li><li>AGDLP delegation</li><li>MFA (Duo, YubiKey)</li><li>PowerShell</li>
+      </ul>
+    </div>
+    <div class="row" data-c="net">
+      <h3><i aria-hidden="true"></i>Networking</h3>
+      <ul class="chips">
+        <li>Cisco ASA/Firepower</li><li>pfSense</li><li>Ubiquiti UniFi</li><li>Cisco Meraki</li><li>VLANs &amp; subnetting</li><li>site-to-site and client VPN (AnyConnect, WireGuard)</li><li>dual-WAN failover</li><li>DNS (Pi-hole, Unbound, CoreDNS, DNSSEC)</li><li>DHCP</li><li>NAT</li><li>nmap</li>
+      </ul>
+    </div>
+    <div class="row" data-c="sys">
+      <h3><i aria-hidden="true"></i>Systems</h3>
+      <ul class="chips">
+        <li>Windows Server</li><li>Hyper-V</li><li>VirtualBox</li><li>Ubuntu</li><li>Debian</li><li>Fedora</li><li>apt/dnf package management</li><li>LVM/XFS</li><li>systemd</li><li>SSH</li>
+      </ul>
+    </div>
+    <div class="row" data-c="sec">
+      <h3><i aria-hidden="true"></i>Security</h3>
+      <ul class="chips">
+        <li>Wazuh SIEM</li><li>Huntress</li><li>Microsoft Defender</li><li>Microsoft Purview</li><li>log retention &amp; audit review</li><li>attack-surface reduction</li><li>least-privilege access design</li><li>network auditing &amp; asset inventory (Snipe-IT)</li>
+      </ul>
+    </div>
+    <div class="row" data-c="obs">
+      <h3><i aria-hidden="true"></i>Containers &amp; Observability</h3>
+      <ul class="chips">
+        <li>Docker</li><li>Docker Compose</li><li>Portainer</li><li>Uptime Kuma</li><li>node_exporter</li>
+      </ul>
+    </div>
+    <div class="row" data-c="tool">
+      <h3><i aria-hidden="true"></i>Tooling</h3>
+      <ul class="chips">
+        <li>Git/GitHub</li><li>SQL fundamentals</li><li>AI prompting for technical workflows (Claude Code)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="head head-2"><h2 id="h-cred">Credentials</h2><p>5 earned · 3 in progress</p></div>
+  <p class="lbl creds-lbl">Certifications earned</p>
+  <ul class="tiles">
+    <li class="tile"><span class="who"><i class="led" aria-hidden="true"></i>Microsoft</span><b>SC-300</b><span class="d">Identity and Access Administrator</span></li>
+    <li class="tile"><span class="who"><i class="led" aria-hidden="true"></i>CompTIA</span><b>A+</b></li>
+    <li class="tile"><span class="who"><i class="led" aria-hidden="true"></i>CompTIA</span><b>Tech+</b></li>
+    <li class="tile"><span class="who"><i class="led" aria-hidden="true"></i>Service management</span><b>ITIL 4 Foundation</b></li>
+    <li class="tile"><span class="who"><i class="led" aria-hidden="true"></i>CJIS</span><b>Security Awareness</b><span class="d">Level 4 · IT/System Administrator</span></li>
+  </ul>
+  <div class="creds-2">
+    <div>
+      <p class="lbl creds-lbl">In progress</p>
+      <ul class="tiles three wait">
+        <li class="tile"><span class="who"><i class="led" aria-hidden="true"></i>LPI</span><b>Linux Essentials</b><span class="d">010-160</span></li>
+        <li class="tile"><span class="who"><i class="led" aria-hidden="true"></i>CompTIA</span><b>Network+</b></li>
+        <li class="tile"><span class="who"><i class="led" aria-hidden="true"></i>Microsoft</span><b>Azure Fundamentals</b><span class="d">AZ-900</span></li>
+      </ul>
+    </div>
+    <div>
+      <p class="lbl creds-lbl">Education</p>
+      <ul class="tiles two">
+        <li class="tile"><span class="who">Western Governors University (WGU)</span><b>B.S. Cloud &amp; Network Engineering</b><span class="d">Microsoft Azure · In Progress</span></li>
+        <li class="tile"><span class="who">Miami Dade College</span><b>IT Coursework</b></li>
+      </ul>
+    </div>
+  </div>
+</section>
+<section class="view" id="homelab" aria-labelledby="h-lab">
+  <div class="head"><h2 id="h-lab">Homelab</h2><p>4 builds · personal lab</p></div>
+  <p class="lab-note"><span class="tape">Personal lab</span><span>Built and run on my own time, separate from client and employer environments.</span></p>
+
+  <div class="next on-dark slim">
+    <span class="rail rail-l" aria-hidden="true"></span><span class="rail rail-r" aria-hidden="true"></span>
+    <p class="k"><i class="led wait" aria-hidden="true"></i>Next up</p>
+    <ul>
+      <li>Moving the lab onto a dedicated Proxmox host. <span>The first install attempt surfaced a constraint: the Proxmox installer needs a wired network connection, and the current lab machine runs on WiFi.</span></li>
+      <li>Building a hands-on monitoring stack with Prometheus, Grafana and Loki.</li>
+    </ul>
+  </div>
+
+  <div class="lab-grid">
+    <article class="lab" data-c="net" aria-labelledby="l1">
+      <h3 id="l1"><i aria-hidden="true"></i>Highly available DNS</h3>
+      <ul class="pts">
+        <li>Designed and operate a redundant two-node DNS architecture with no single point of failure, with both nodes advertised via DHCP for genuine client-side failover.</li>
+        <li>Separated the three DNS layers cleanly: filtering (<strong>Pi-hole v6</strong>), recursive resolution from root servers with DNSSEC validation (<strong>Unbound</strong>, no third-party forwarder), and authoritative internal-zone service (<strong>CoreDNS</strong>).</li>
+        <li>Built automated primary-to-secondary zone replication on a scheduled job with logging, and conditional forwarding so only internal-zone queries reach the authoritative server.</li>
+      </ul>
+      <figure class="fig">
+        <svg class="dg" viewBox="0 0 360 214" role="img" aria-labelledby="dnst">
+          <title id="dnst">Lookup path: clients ask Pi-hole; internal-zone queries go to CoreDNS and everything else goes to Unbound, which resolves from the root servers with DNSSEC validation.</title>
+          <defs><marker id="a-net" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path class="dg-ah" d="M0 0L8 4L0 8z"/></marker></defs>
+          <rect class="dg-box" x="100" y="0" width="160" height="40" rx="4"/>
+          <text class="dg-t" x="180" y="18" text-anchor="middle">Clients</text>
+          <text class="dg-s" x="180" y="32" text-anchor="middle">both nodes via DHCP</text>
+          <path class="dg-ln" d="M180 40V58" marker-end="url(#a-net)"/>
+          <rect class="dg-box dg-hot" x="100" y="60" width="160" height="40" rx="4"/>
+          <text class="dg-t" x="180" y="78" text-anchor="middle">Pi-hole v6</text>
+          <text class="dg-s" x="180" y="92" text-anchor="middle">filtering</text>
+          <path class="dg-ln" d="M180 100V124H90V146" marker-end="url(#a-net)"/>
+          <path class="dg-ln" d="M180 124H270V146" marker-end="url(#a-net)"/>
+          <text class="dg-s" x="90" y="118" text-anchor="middle">internal zone</text>
+          <text class="dg-s" x="270" y="118" text-anchor="middle">everything else</text>
+          <rect class="dg-box" x="10" y="148" width="160" height="42" rx="4"/>
+          <text class="dg-t" x="90" y="167" text-anchor="middle">CoreDNS</text>
+          <text class="dg-s" x="90" y="181" text-anchor="middle">authoritative</text>
+          <rect class="dg-box" x="190" y="148" width="160" height="42" rx="4"/>
+          <text class="dg-t" x="270" y="167" text-anchor="middle">Unbound</text>
+          <text class="dg-s" x="270" y="181" text-anchor="middle">recursive · DNSSEC</text>
+          <text class="dg-s" x="270" y="207" text-anchor="middle">→ root servers</text>
+        </svg>
+        <figcaption class="fig-note">One lookup, simplified. DHCP hands out both nodes, and the internal zone replicates primary to secondary on a schedule.</figcaption>
+      </figure>
+    </article>
+
+    <article class="lab" data-c="sec" aria-labelledby="l2">
+      <h3 id="l2"><i aria-hidden="true"></i>Network audit &amp; attack-surface reduction</h3>
+      <ul class="pts">
+        <li>Conducted a full network audit correlating DHCP leases, router configuration, and nmap sweeps into a <strong>verified 34-node device inventory</strong> maintained as a versioned source of truth.</li>
+        <li>Identified a UPnP-created port mapping silently exposing a device management interface to the public internet; <strong>disabled UPnP and closed the exposure</strong>.</li>
+        <li>Reduced host attack surface by disabling unused radios and unnecessary boot-time services, and added logging to previously silent automation.</li>
+        <li>Deployed WireGuard as the sole remote-access path, with no services exposed through direct port forwarding.</li>
+      </ul>
+      <figure class="fig">
+        <div class="audit">
+          <ul><li>DHCP leases</li><li>Router configuration</li><li>nmap sweeps</li></ul>
+          <span class="arrow" aria-hidden="true">→</span>
+          <div class="out"><b>34</b><span>devices in a verified, versioned inventory</span></div>
+        </div>
+        <figcaption class="fig-note">Three sources cross-checked into one inventory</figcaption>
+      </figure>
+    </article>
+
+    <article class="lab" data-c="id" aria-labelledby="l3">
+      <h3 id="l3"><i aria-hidden="true"></i>Windows Server &amp; Active Directory lab</h3>
+      <ul class="pts">
+        <li>Built a multi-server Windows Server lab on VirtualBox with an isolated routed segment, promoting the forest root domain controller for a new AD DS forest with integrated DNS.</li>
+        <li>Modeled an OU hierarchy on production practice (Users, Groups, Workstations, Servers, Service Accounts) rather than relying on default containers.</li>
+        <li>Implemented AGDLP group nesting for role-based access delegation, validated against a test account.</li>
+      </ul>
+      <figure class="fig">
+        <pre class="tree" aria-label="OU hierarchy under the forest root domain: Users, Groups, Workstations, Servers, Service Accounts"><b>forest root domain</b>   AD DS + integrated DNS
+├── Users
+├── Groups
+├── Workstations
+├── Servers
+└── Service Accounts</pre>
+        <figcaption class="fig-note">OU layout modeled on production practice</figcaption>
+      </figure>
+    </article>
+
+    <article class="lab" data-c="sys" aria-labelledby="l4">
+      <h3 id="l4"><i aria-hidden="true"></i>Linux administration</h3>
+      <ul class="pts">
+        <li>Builds and administers parallel lab VMs across both major package ecosystems, Fedora Server (dnf/rpm) and Debian (apt/dpkg), for cross-distribution fluency.</li>
+        <li>Performed live storage expansion on an LVM-backed XFS volume end to end, with headless CLI administration over SSH.</li>
+      </ul>
+      <figure class="fig">
+        <ol class="steps">
+          <li><b>1</b>Hypervisor disk resize</li>
+          <li><b>2</b>Partition growth</li>
+          <li><b>3</b>PV resize</li>
+          <li><b>4</b>LV extend</li>
+          <li><b>5</b>Online filesystem grow</li>
+        </ol>
+        <figcaption class="fig-note">The live XFS expansion, step by step</figcaption>
+      </figure>
+    </article>
+  </div>
+</section>
+
+<section class="cpanel on-dark" id="contact" aria-labelledby="h-contact">
+  <span class="rail rail-l" aria-hidden="true"></span><span class="rail rail-r" aria-hidden="true"></span>
+  <div class="cpanel-in">
+    <div>
+      <h2 class="tape" id="h-contact">Contact</h2>
+      <p class="say">Hiring for a systems or infrastructure role? I'd like to hear about it.</p>
+    </div>
+    <div>
+      <div class="lines">
+        <div><span class="k">Email</span><a class="v" id="em2" href="mailto:patrick.borges0514@gmail.com">patrick.borges0514@gmail.com</a><button class="copy" type="button" data-copy="patrick.borges0514@gmail.com" data-target="em2">Copy</button></div>
+        <div><span class="k">Phone</span><a class="v" id="ph2" href="tel:+17868971651">786-897-1651</a><button class="copy" type="button" data-copy="786-897-1651" data-target="ph2">Copy</button></div>
+        <div><span class="k">LinkedIn</span><a class="v" href="https://www.linkedin.com/in/patrick-borges-it-specialist" target="_blank" rel="noopener">linkedin.com/in/patrick-borges-it-specialist</a></div>
+      </div>
+      <a class="btn" href="Patrick_Borges_Resume.pdf" download data-resume><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></svg>Download résumé (PDF)</a>
+    </div>
+  </div>
+</section>
+
+</div>
+</main>
+
+<footer class="foot">
+  <div class="wrap"><span>Patrick Borges</span><span>Systems &amp; Infrastructure Administrator</span></div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<script>
+(function () {
+  var d = document.documentElement;
+  var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  function all(sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
+  function byId(id) { return id ? document.getElementById(id) : null; }
+
+  var VIEWS = ['overview', 'experience', 'skills', 'homelab'];
+  var EMPS = ['lansight', 'coke-florida', 'health-choice'];
+  var WS = ['monitoring', 'compliance', 'network', 'identity', 'dispatch'];
+  var LANSIGHT_PARTS = ['cjis', 'lansight-team', 'municipal'];
+  var MAP_FOCUS = {
+    monitoring: ['endpoints', 'defender', 'siem'],
+    network: ['patrol', 'carriers', 'remote', 'edge'],
+    identity: ['ad', 'entra']
+  };
+
+  /* ---------- small animations, replayed whenever a panel is shown ---------- */
+  function countUp(el) {
+    var to = Number(el.getAttribute('data-count'));
+    var suffix = el.getAttribute('data-suffix') || '';
+    var start = null;
+    function fmt(n) { return Math.round(n).toLocaleString('en-US') + suffix; }
+    if (reduce) { el.textContent = fmt(to); return; }
+    function step(t) {
+      if (start === null) start = t;
+      var p = Math.min(1, (t - start) / 1100);
+      el.textContent = fmt(to * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  function replay(scope) {
+    if (!scope || reduce) return;
+    all('[data-count]', scope).forEach(countUp);
+    all('[data-reveal]', scope).forEach(function (el) {
+      el.classList.add('is-pending');
+      void el.offsetWidth;
+      el.classList.remove('is-pending');
+    });
+  }
+
+  /* ---------- state: which tab, employer and workstream ---------- */
+  function syncState() {
+    var view = d.getAttribute('data-view');
+    var emp = d.getAttribute('data-emp');
+    var ws = d.getAttribute('data-ws');
+    all('.tabs a').forEach(function (a) {
+      if (a.getAttribute('data-view') === view) a.setAttribute('aria-current', 'page');
+      else a.removeAttribute('aria-current');
+    });
+    all('.emps [role="tab"]').forEach(function (b) {
+      var on = b.getAttribute('data-emp') === emp;
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+      b.tabIndex = on ? 0 : -1;
+    });
+    all('.ws-tabs [role="tab"]').forEach(function (b) {
+      var on = b.getAttribute('data-ws') === ws;
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+      b.tabIndex = on ? 0 : -1;
+    });
+    var map = byId('cjis-map');
+    if (map) {
+      var focus = MAP_FOCUS[ws] || null;
+      map.classList.toggle('has-focus', !!focus);
+      all('a[data-node]', map).forEach(function (a) {
+        a.classList.toggle('on', !!focus && focus.indexOf(a.getAttribute('data-node')) > -1);
+      });
+    }
+  }
+
+  function setHash(id, push) {
+    try {
+      if (push) history.pushState(null, '', '#' + id);
+      else history.replaceState(null, '', '#' + id);
+    } catch (e) { /* the viewer may not allow history changes; the page still works */ }
+  }
+
+  /* resolve any in-page target to a tab (and employer / workstream) and show it */
+  function go(id, opts) {
+    opts = opts || {};
+    var view = null, emp = null, ws = null;
+    if (VIEWS.indexOf(id) > -1) view = id;
+    else if (EMPS.indexOf(id) > -1) { view = 'experience'; emp = id; }
+    else if (id.indexOf('ws-') === 0 && WS.indexOf(id.slice(3)) > -1) { view = 'experience'; emp = 'lansight'; ws = id.slice(3); }
+    else if (LANSIGHT_PARTS.indexOf(id) > -1) { view = 'experience'; emp = 'lansight'; }
+    else if (id === 'contact') view = d.getAttribute('data-view') === 'overview' ? 'experience' : d.getAttribute('data-view');
+    else return false;
+
+    var viewChanged = view !== d.getAttribute('data-view');
+    var empChanged = emp && emp !== d.getAttribute('data-emp');
+    var wsChanged = ws && ws !== d.getAttribute('data-ws');
+    d.setAttribute('data-view', view);
+    if (emp) d.setAttribute('data-emp', emp);
+    if (ws) d.setAttribute('data-ws', ws);
+    syncState();
+
+    if (viewChanged && view === 'experience') replay(byId(d.getAttribute('data-emp')));
+    else if (empChanged) replay(byId(emp));
+    if (wsChanged || (viewChanged && view === 'experience')) replay(byId('ws-' + d.getAttribute('data-ws')));
+
+    if (opts.history !== false) setHash(id, viewChanged);
+
+    var behavior = reduce ? 'auto' : 'smooth';
+    if (opts.scroll === 'none') return true;
+    if (opts.scroll === 'panel') {
+      var panel = byId('ws-' + d.getAttribute('data-ws'));
+      if (panel) panel.scrollIntoView({ block: 'start', behavior: behavior });
+      return true;
+    }
+    if (VIEWS.indexOf(id) > -1 || EMPS.indexOf(id) > -1) {
+      if (viewChanged || EMPS.indexOf(id) < 0) window.scrollTo({ top: 0, behavior: 'auto' });
+      else {
+        var list = document.querySelector('.emps');
+        if (list && list.getBoundingClientRect().top < 0) list.scrollIntoView({ block: 'start', behavior: behavior });
+      }
+    } else if (ws) {
+      var target = viewChanged ? byId('cjis') : byId('ws-' + ws);
+      if (target) {
+        var r = target.getBoundingClientRect();
+        if (viewChanged || r.top < 60 || r.top > window.innerHeight - 120) target.scrollIntoView({ block: viewChanged ? 'start' : 'nearest', behavior: viewChanged ? 'auto' : behavior });
+      }
+    } else {
+      var el = byId(id);
+      if (el) el.scrollIntoView({ block: 'start', behavior: viewChanged ? 'auto' : behavior });
+    }
+    return true;
+  }
+
+  document.addEventListener('click', function (ev) {
+    if (ev.defaultPrevented || ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+    var a = ev.target && ev.target.closest ? ev.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    var id = a.getAttribute('href').slice(1);
+    var opts = a.closest('.map') ? { scroll: window.innerWidth < 980 ? 'panel' : 'none' } : {};
+    if (go(id, opts)) ev.preventDefault();
+  });
+
+  all('.emps [role="tab"]').forEach(function (b) {
+    b.addEventListener('click', function () { go(b.getAttribute('data-emp')); });
+  });
+  all('.ws-tabs [role="tab"]').forEach(function (b) {
+    b.addEventListener('click', function () { go('ws-' + b.getAttribute('data-ws'), { scroll: 'none' }); });
+  });
+  /* arrow keys move between tabs in each tab list */
+  all('[role="tablist"]').forEach(function (list) {
+    list.addEventListener('keydown', function (e) {
+      var tabs = all('[role="tab"]', list);
+      var i = tabs.indexOf(document.activeElement);
+      if (i < 0) return;
+      var n = null;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') n = (i + 1) % tabs.length;
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') n = (i - 1 + tabs.length) % tabs.length;
+      if (e.key === 'Home') n = 0;
+      if (e.key === 'End') n = tabs.length - 1;
+      if (n === null) return;
+      e.preventDefault();
+      tabs[n].focus();
+      tabs[n].click();
+    });
+  });
+  window.addEventListener('popstate', function () {
+    var id = (location.hash || '#overview').slice(1);
+    if (!go(id, { history: false })) go('overview', { history: false });
+  });
+
+  /* first paint: the head script already picked the tab; finish the job */
+  syncState();
+  (function () {
+    var id = (location.hash || '').slice(1);
+    var view = d.getAttribute('data-view');
+    if (view === 'experience') {
+      replay(byId(d.getAttribute('data-emp')));
+      replay(byId('ws-' + d.getAttribute('data-ws')));
+    }
+    /* the browser jumps to the fragment on load; land each kind of link where it reads best */
+    function land() {
+      if (!id) return;
+      if (VIEWS.indexOf(id) > -1 || EMPS.indexOf(id) > -1) { window.scrollTo(0, 0); return; }
+      var t = id.indexOf('ws-') === 0 ? byId('cjis') : byId(id);
+      if (t) t.scrollIntoView({ block: 'start' });
+    }
+    requestAnimationFrame(land);
+    window.addEventListener('load', function () { requestAnimationFrame(land); }, { once: true });
+  })();
+
+  /* ---------- theme, copy, toast ---------- */
+  var modeBtn = byId('mode');
+  if (modeBtn) modeBtn.addEventListener('click', function () {
+    var t = d.getAttribute('data-theme');
+    var dark = t === 'dark' || (t !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    d.setAttribute('data-theme', dark ? 'light' : 'dark');
+  });
+
+  var toast = byId('toast');
+  var toastTimer;
+  function say(msg) {
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.hidden = true; }, 3600);
+  }
+
+  all('[data-copy]').forEach(function (btn) {
+    var original = btn.textContent;
+    var timer;
+    function flash(msg) {
+      btn.textContent = msg;
+      clearTimeout(timer);
+      timer = setTimeout(function () { btn.textContent = original; }, 1600);
+    }
+    btn.addEventListener('click', function () {
+      var text = btn.getAttribute('data-copy');
+      var target = byId(btn.getAttribute('data-target'));
+      function fallback() {
+        if (target && window.getSelection) {
+          var range = document.createRange();
+          range.selectNodeContents(target);
+          var sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+        }
+        flash('Selected');
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { flash('Copied'); }, fallback);
+      } else {
+        fallback();
+      }
+    });
+  });
+
+  /* ---------- résumé download: the viewer's save prompt inside Claude, a plain link anywhere else ---------- */
+  var RESUME = 'Patrick_Borges_Resume.pdf';
+  var cvLinks = all('[data-resume]');
+  var inViewer = !!(window.claude && typeof window.claude.use === 'function');
+  var dlReady = inViewer
+    ? Promise.resolve().then(function () { return window.claude.use('downloads'); }).catch(function () { return null; })
+    : null;
+  function hideCv() { cvLinks.forEach(function (a) { a.hidden = true; }); }
+  if (dlReady) dlReady.then(function (dl) { if (!dl) hideCv(); });
+  var busy = false;
+  cvLinks.forEach(function (a) {
+    a.addEventListener('click', function (ev) {
+      if (!dlReady) return;
+      ev.preventDefault();
+      if (busy) return;
+      busy = true;
+      dlReady.then(function (dl) {
+        if (!dl) {
+          hideCv();
+          say("Download isn’t available in this view. Email me and I’ll send my résumé.");
+          return;
+        }
+        return fetch(RESUME)
+          .then(function (r) { if (!r.ok) throw { code: 'missing' }; return r.blob(); })
+          .then(function (blob) { return dl.save({ filename: RESUME, data: blob }); })
+          .then(function () { say('Résumé saved.'); });
+      }).catch(function (err) {
+        var code = err && err.code;
+        if (code === 'declined') return;
+        if (code === 'rate_limited') { say('A save prompt is already open.'); return; }
+        say("The résumé couldn’t be downloaded here. Email me and I’ll send it.");
+      }).then(function () { busy = false; });
+    });
+  });
+})();
+</script>
+</body>
+</html>
